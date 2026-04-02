@@ -1,0 +1,12 @@
+# Jekyll GitHub Pages Configuration
+
+# Theme
+theme: minima
+
+# Site settings
+url: "https://example.com"
+title: "My Awesome Site"
+description: "This is my first GitHub Pages site using Jekyll."
+
+# Build settings
+markdown: kramdown
