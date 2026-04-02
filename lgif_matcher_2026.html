@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LGIF Matcher 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root {
+  --green: #1a7a3c;
+  --green-light: #22a050;
+  --green-dark: #145c2d;
+  --gold: #f0c040;
+  --bg: #f0f4f0;
+  --card: #ffffff;
+  --surface: #e8eee8;
+  --text: #1a2a1a;
+  --text2: #4a6a4a;
+  --text3: #8aaa8a;
+  --border: #d0ddd0;
+  --orange: #e8820c;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(0,80,0,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-serif; color: var(--text); }
+
+.app-wrap { max-width: 960px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* HEADER */
+.app-header {
+  background: linear-gradient(150deg, var(--green-dark) 0%, var(--green) 100%);
+  color: #fff;
+  padding: 20px 24px 16px;
+  position: sticky; top: 0; z-index: 50;
+}
+.header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.club-badge {
+  width: 48px; height: 48px; background: var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 900; color: var(--green-dark); flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.header-titles { flex: 1; }
+.header-title { font-size: 22px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.1; }
+.header-sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.import-btn {
+  background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.4);
+  color: #fff; border-radius: 10px; padding: 8px 14px;
+  font-size: 12px; font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  transition: background 0.15s; font-family: 'Nunito', sans-serif;
+}
+.import-btn:hover { background: rgba(255,255,255,0.28); }
+
+.filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filter-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.55); }
+.pills { display: flex; gap: 7px; flex-wrap: wrap; }
+.pill {
+  border: 2px solid rgba(255,255,255,0.30); border-radius: 20px;
+  padding: 4px 13px; font-size: 12px; font-weight: 800;
+  color: rgba(255,255,255,0.70); cursor: pointer; transition: all 0.15s;
+  user-select: none; font-family: 'Nunito', sans-serif;
+}
+.pill.active { background: var(--gold); border-color: var(--gold); color: var(--green-dark); }
+.pill:hover:not(.active) { border-color: rgba(255,255,255,0.65); color: #fff; }
+
+/* UPDATE BAR */
+.update-bar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 6px 24px; font-size: 11px; font-weight: 700; color: var(--text3);
+  display: flex; align-items: center; gap: 7px;
+}
+.update-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-light); flex-shrink: 0; }
+
+/* TAB BAR */
+.tab-bar {
+  background: var(--card); border-bottom: 1px solid var(--border);
+  display: flex; padding: 0 24px;
+  position: sticky; top: 0; z-index: 40;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.tab {
+  padding: 13px 18px 11px; font-size: 12px; font-weight: 800;
+  color: var(--text3); cursor: pointer; border-bottom: 3px solid transparent;
+  transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.6px; white-space: nowrap;
+}
+.tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* CONTENT */
+.content { flex: 1; padding: 16px 20px 60px; }
+
+/* Desktop 2-col grid */
+@media (min-width: 680px) {
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .month-label { grid-column: 1 / -1; }
+}
+
+/* MONTH LABEL */
+.month-label {
+  font-size: 11px; font-weight: 900; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--text3); padding: 18px 2px 7px;
+}
+.month-label:first-child { padding-top: 4px; }
+
+/* MATCH CARD */
+.match-card {
+  background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden; cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+  margin-bottom: 10px;
+}
+@media (min-width: 680px) { .match-card { margin-bottom: 0; } }
+.match-card:hover { box-shadow: 0 4px 20px rgba(0,80,0,0.15); transform: translateY(-1px); }
+.match-card:active { transform: scale(0.99); }
+.match-card.expanded { border-color: var(--green-light); }
+.match-card.past { opacity: 0.52; }
+.match-card.conflict { border-left: 4px solid var(--orange); }
+
+.card-main { display: flex; align-items: stretch; }
+.team-stripe { width: 6px; flex-shrink: 0; }
+.stripe-DAM { background: linear-gradient(180deg, #9b2246, #c43068); }
+.stripe-SVART { background: linear-gradient(180deg, #1a1a1a, #444); }
+.stripe-VIT { background: linear-gradient(180deg, #4a90d9, #2a70b8); }
+
+.card-body { flex: 1; padding: 11px 13px 10px; }
+.card-row1 { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3px; }
+.match-date { font-size: 11px; font-weight: 800; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+.team-badge { font-size: 10px; font-weight: 900; border-radius: 5px; padding: 2px 7px; letter-spacing: 0.5px; text-transform: uppercase; }
+.badge-DAM { background: #fce4ec; color: #9b2246; }
+.badge-SVART { background: #f0f0f0; color: #222; }
+.badge-VIT { background: #e3f0fb; color: #1a5a9a; }
+
+.card-row2 { display: flex; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+.opponent { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.2; flex: 1; }
+.hb-badge { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; flex-shrink: 0; }
+.hb-hemma { background: #e8f5e9; color: #1b7a3c; }
+.hb-borta { background: #fff3e0; color: #e65100; }
+
+.card-row3 { display: flex; align-items: center; gap: 10px; }
+.match-time { font-size: 12px; font-weight: 700; color: var(--green-dark); }
+.match-series { font-size: 11px; color: var(--text2); font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conflict-dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+
+.trainer-row {
+  display: flex; align-items: center; gap: 7px;
+  padding: 6px 13px 7px; border-top: 1px solid var(--surface); background: var(--surface);
+}
+.trainer-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.trainer-name { font-size: 12px; font-weight: 700; }
+.trainer-role { font-size: 11px; color: var(--text3); font-weight: 600; margin-left: auto; }
+.no-trainer { font-size: 11px; color: var(--text3); font-style: italic; padding: 6px 13px 7px; border-top: 1px solid var(--surface); background: var(--surface); }
+
+.card-detail { display: none; padding: 11px 13px; border-top: 1px solid var(--border); background: #fafffe; }
+.card-detail.open { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.detail-key { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text3); margin-bottom: 1px; }
+.detail-val { font-size: 12px; font-weight: 700; color: var(--text); }
+.comment-box { background: #fff8e1; border-radius: 9px; padding: 7px 10px; font-size: 11px; color: #7a5800; font-weight: 600; margin-top: 8px; border-left: 3px solid var(--gold); }
+
+.next-badge { display: inline-block; background: var(--green); color: #fff; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 6px; vertical-align: middle; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 680px) { .stats-grid { grid-template-columns: 1fr 1fr 1fr; } .stats-trainers { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; } }
+.stat-section-title { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); padding: 18px 2px 8px; }
+@media (min-width: 680px) { .stat-section-title { grid-column: 1 / -1; } }
+.stat-card { background: var(--card); border-radius: var(--radius); padding: 15px; box-shadow: var(--shadow); }
+.stat-card h3 { font-size: 14px; font-weight: 800; margin-bottom: 10px; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--surface); font-size: 12px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-key { color: var(--text2); font-weight: 600; }
+.stat-val { font-weight: 800; }
+.trainer-stat-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.trainer-stat-header { display: flex; align-items: center; gap: 11px; padding: 13px 15px; }
+.trainer-big-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 900; color: #fff; }
+.trainer-stat-name { font-size: 15px; font-weight: 800; flex: 1; }
+.trainer-stat-count { font-size: 22px; font-weight: 900; color: var(--green); }
+.trainer-matches-list { padding: 0 15px 11px; }
+.trainer-match-line { font-size: 11px; color: var(--text2); font-weight: 600; padding: 2px 0; display: flex; gap: 8px; }
+.trainer-match-date { color: var(--text3); width: 65px; flex-shrink: 0; }
+
+/* TRAINER COLORS */
+.tc-Martin { background: #1a7a3c; }
+.tc-Henrik { background: #9b2246; }
+.tc-Anna { background: #6a3090; }
+.tc-Fredrik { background: #1a5aa8; }
+.tc-Tobias { background: #d97a10; }
+.tc-Magnus { background: #2a8888; }
+.tc-Jenni { background: #c43068; }
+
+/* IMPORT OVERLAY */
+.import-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.import-overlay.open { display: flex; }
+.import-box {
+  background: #fff; border-radius: 20px; padding: 28px 24px;
+  max-width: 440px; width: 100%; box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+}
+.import-box h2 { font-size: 18px; font-weight: 900; margin-bottom: 5px; }
+.import-box p { font-size: 13px; color: var(--text2); margin-bottom: 18px; font-weight: 600; line-height: 1.5; }
+.drop-zone {
+  border: 2.5px dashed var(--border); border-radius: 14px;
+  padding: 32px 20px; text-align: center; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s; margin-bottom: 14px;
+}
+.drop-zone:hover, .drop-zone.drag-over { border-color: var(--green); background: #f0f8f3; }
+.drop-zone-icon { font-size: 32px; margin-bottom: 8px; }
+.drop-zone-text { font-size: 13px; font-weight: 700; color: var(--text2); }
+.drop-zone-hint { font-size: 11px; color: var(--text3); margin-top: 4px; }
+.import-status { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 10px; min-height: 18px; }
+.import-status.error { color: #d93025; }
+.import-actions { display: flex; justify-content: flex-end; }
+.btn-cancel { background: var(--surface); border: none; border-radius: 10px; padding: 9px 18px; font-size: 13px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; color: var(--text2); }
+.btn-cancel:hover { background: var(--border); }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text3); }
+.empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; font-weight: 700; }
+
+@media (max-width: 440px) {
+  .app-header { padding: 14px 16px 12px; }
+  .header-title { font-size: 19px; }
+  .content { padding: 10px 12px 50px; }
+  .tab-bar { padding: 0 10px; }
+  .tab { padding: 11px 10px 10px; font-size: 11px; letter-spacing: 0.2px; }
+  .update-bar { padding: 5px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- IMPORT OVERLAY -->
+<div class="import-overlay" id="importOverlay" onclick="overlayClick(event)">
+  <div class="import-box">
+    <h2>📂 Importera ny Excel-fil</h2>
+    <p>Välj den uppdaterade planerings-filen (.xlsx). Appen läser kolumnerna automatiskt — Datum, Lag, Motstånd, Starttid, Ansvarig ledare m.fl.</p>
+    <div class="import-status" id="importStatus"></div>
+    <div class="drop-zone" id="dropZone"
+      onclick="document.getElementById('fileInput').click()"
+      ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+      <div class="drop-zone-icon">📋</div>
+      <div class="drop-zone-text">Klicka för att välja fil</div>
+      <div class="drop-zone-hint">eller dra &amp; släpp .xlsx filen här</div>
+    </div>
+    <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none" onchange="fileSelected(event)">
+    <div class="import-actions">
+      <button class="btn-cancel" onclick="closeImport()">Stäng</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app-wrap">
+
+  <div class="app-header">
+    <div class="header-top">
+      <div class="club-badge">L</div>
+      <div class="header-titles">
+        <div class="header-title">Lindome GIF</div>
+        <div class="header-sub">Matchplanering 2026</div>
+      </div>
+      <button class="import-btn" onclick="openImport()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Uppdatera data
+      </button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Lag:</span>
+      <div class="pills" id="teamPills">
+        <div class="pill active" data-team="ALL" onclick="toggleTeam('ALL')">Alla</div>
+        <div class="pill" data-team="DAM" onclick="toggleTeam('DAM')">Dam</div>
+        <div class="pill" data-team="SVART" onclick="toggleTeam('SVART')">Svart</div>
+        <div class="pill" data-team="VIT" onclick="toggleTeam('VIT')">Vit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="update-bar">
+    <span class="update-dot"></span>
+    <span id="updateText">Inbyggd data · 2 apr 2026 · 57 matcher</span>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="showTab('kommande')">Kommande</div>
+    <div class="tab" onclick="showTab('alla')">Alla matcher</div>
+    <div class="tab" onclick="showTab('statistik')">Statistik</div>
+  </div>
+
+  <div class="content">
+    <div id="matchGrid" class="match-grid"></div>
+    <div id="statsPanel" style="display:none"></div>
+  </div>
+
+</div>
+
+<script>
+const BUILTIN = [{"datum":"2026-03-08","veckodag":"Söndag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"Norsktlag","anlaggning":"Priritet Serneke Arena","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-12","veckodag":"Torsdag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Lindome GIF (D4D)","motstand":"Tvååkers IF (D4D)","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-13","veckodag":"Fredag","tid":"–","lag":"SVART","tavling":"","omgang":"","hemma_borta":"Hemma","motstand":"BK Häcken","anlaggning":"Lindevi","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-15","veckodag":"Söndag","tid":"–","lag":"SVART","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"ÅSA","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-28","veckodag":"Lördag","tid":"–","lag":"VIT","tavling":"Träningsmatch","omgang":"","hemma_borta":"Hemma","motstand":"Kungsbacka","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-31","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"1","hemma_borta":"Borta","motstand":"Kållered SK","anlaggning":"Kållered Sportcenter 1","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-07","veckodag":"Tisdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"1","hemma_borta":"Borta","motstand":"Surte/Ahlafors","anlaggning":"Surte 2 Konstgräs","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"Henrik","kommentar":"Påsklov; Flyttad till tisdag 7e April"},{"datum":"2026-04-08","veckodag":"Onsdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"2","hemma_borta":"Hemma","motstand":"IK Virgo","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-09","veckodag":"Torsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"1","hemma_borta":"Borta","motstand":"Lekstorps IF F11/12 vit","anlaggning":"LP - Idrottspark A - plan","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-14","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"2","hemma_borta":"Hemma","motstand":"IK Zenith F16 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Tobias","flytt_ansvarig":"Tobias","kommentar":"Sverige Match; flytta"},{"datum":"2026-04-14","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"3","hemma_borta":"Borta","motstand":"IF Mölndal Fotboll","anlaggning":"Åbyvallen 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"Jenni","kommentar":"Sverige Match; info dam"},{"datum":"2026-04-16","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"2","hemma_borta":"Hemma","motstand":"Älvängens IK F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-22","veckodag":"Onsdag","tid":"20:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"3","hemma_borta":"Borta","motstand":"Nödinge SK Fotboll","anlaggning":"Vimmervi 2 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-24","veckodag":"Fredag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"3","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovås Billdal Arena 1","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":"Flytta ej klara matchen med olika spelare"},{"datum":"2026-04-24","veckodag":"Fredag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"4","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Flytta ej klara matchen med olika spelare"},{"datum":"2026-04-28","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"5","hemma_borta":"Borta","motstand":"Göteborgs SIF","anlaggning":"Guldheden Södra 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-29","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"4","hemma_borta":"Hemma","motstand":"Floda BoIF F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-02","veckodag":"Lördag","tid":"14:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"4","hemma_borta":"Hemma","motstand":"BK Häcken F2011 lag 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":"Martin: Bekräftat byte till 14:30"},{"datum":"2026-05-05","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"6","hemma_borta":"Hemma","motstand":"Donsö IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-06","veckodag":"Onsdag","tid":"20:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"5","hemma_borta":"Borta","motstand":"Azalea BK F2011","anlaggning":"Guldheden Södra 1 Konstgräs","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-07","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"5","hemma_borta":"Hemma","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-13","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"6","hemma_borta":"Borta","motstand":"Lerums IS","anlaggning":"Rydsbergsplan 1 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-15","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"6","hemma_borta":"Hemma","motstand":"Onsala BK F2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-19","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"8","hemma_borta":"Hemma","motstand":"Näsets SK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-20","veckodag":"Onsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"7","hemma_borta":"Borta","motstand":"Särö Kullavik IF","anlaggning":"Särö IP A","krock":"","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-21","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"7","hemma_borta":"Hemma","motstand":"IFK Hindås F-11/12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-28","veckodag":"Torsdag","tid":"20:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"9","hemma_borta":"Borta","motstand":"Mölnlycke IF","anlaggning":"Djupedalsplan B Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-29","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"8","hemma_borta":"Hemma","motstand":"Torslanda IK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-02","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"10","hemma_borta":"Hemma","motstand":"Mossens BK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-07","veckodag":"Söndag","tid":"16:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"9","hemma_borta":"Hemma","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-13","veckodag":"Lördag","tid":"12:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"11","hemma_borta":"Borta","motstand":"Öjersjö IF","anlaggning":"Öjersjö IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-06-13","veckodag":"Lördag","tid":"13:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"10","hemma_borta":"Borta","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Donsövallen","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"Henrik","kommentar":"SS vill Flytta; Örebro Cup 13-15 Juni"},{"datum":"2026-06-16","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"12","hemma_borta":"Hemma","motstand":"Kållered SK","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-06-23","veckodag":"Tisdag","tid":"19:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"13","hemma_borta":"Borta","motstand":"IK Virgo","anlaggning":"Mossens IP 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-11","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"14","hemma_borta":"Hemma","motstand":"IF Mölndal Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-19","veckodag":"Onsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"11","hemma_borta":"Borta","motstand":"Torslanda IK F2011","anlaggning":"Torslandavallen 1 Gräs","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-23","veckodag":"Söndag","tid":"16:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"15","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovåsvallen 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-25","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"16","hemma_borta":"Hemma","motstand":"Göteborgs SIF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-26","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"12","hemma_borta":"Borta","motstand":"IFK Hindås F-11/12","anlaggning":"Fagervallen 2 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-27","veckodag":"Torsdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"12","hemma_borta":"Hemma","motstand":"Särö Kullavik IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-01","veckodag":"Onsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"13","hemma_borta":"Borta","motstand":"Onsala BK F2012","anlaggning":"Rydets IP A konstgräs","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-02","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"13","hemma_borta":"Hemma","motstand":"Lerums IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-06","veckodag":"Söndag","tid":"15:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"17","hemma_borta":"Borta","motstand":"Donsö IS","anlaggning":"Donsövallen","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-10","veckodag":"Torsdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"14","hemma_borta":"Hemma","motstand":"Azalea BK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-10","veckodag":"Torsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"14","hemma_borta":"Borta","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Bergumsvallen Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-16","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"15","hemma_borta":"Borta","motstand":"Floda BoIF F11","anlaggning":"Flodala IP 3 KG","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-16","veckodag":"Onsdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"19","hemma_borta":"Borta","motstand":"Näsets SK (B)","anlaggning":"Näset Yuncture Arena","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-18","veckodag":"Onsdag","tid":"–","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"15","hemma_borta":"Borta","motstand":"BK Häcken F2011 lag 2","anlaggning":"Slättadamm 2 konstgräs","krock":"JA","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-22","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"20","hemma_borta":"Hemma","motstand":"Mölnlycke IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-24","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"16","hemma_borta":"Hemma","motstand":"Nödinge SK Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-25","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"16","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"18:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"17","hemma_borta":"Borta","motstand":"IK Zenith F16 2","anlaggning":"Hovgårdsvallen 2 Konstgräs","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"19:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"17","hemma_borta":"Borta","motstand":"Älvängens IK F11","anlaggning":"Älvevi 2 Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-04","veckodag":"Söndag","tid":"18:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"21","hemma_borta":"Borta","motstand":"Mossens BK (B)","anlaggning":"Valhalla 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-06","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"18","hemma_borta":"Hemma","motstand":"Lekstorps IF F11/12 vit","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-08","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"18","hemma_borta":"Hemma","motstand":"Surte/Ahlafors","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-11","veckodag":"Söndag","tid":"14:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"22","hemma_borta":"Hemma","motstand":"Öjersjö IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""}];
+
+const MN = ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+const MF = ['Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'];
+const WD = {Måndag:'Mån',Tisdag:'Tis',Onsdag:'Ons',Torsdag:'Tor',Fredag:'Fre',Lördag:'Lör',Söndag:'Sön'};
+
+let MATCHES = [...BUILTIN];
+let selTeams = new Set(['ALL']);
+let curTab = 'kommande';
+let expanded = new Set();
+
+const fmtDate = d => { const p=d.split('-'); return `${+p[2]} ${MN[+p[1]-1]}`; };
+const monthKey = d => { const p=d.split('-'); return `${MF[+p[1]-1]} ${p[0]}`; };
+const today = () => new Date().toISOString().slice(0,10);
+const getTrainer = m => m.ansvarig_ledare || m.flytt_ansvarig || '';
+const initials = n => n.slice(0,2).toUpperCase();
+
+function filtered() {
+  let ms = MATCHES;
+  if (!selTeams.has('ALL')) ms = ms.filter(m => selTeams.has(m.lag));
+  if (curTab === 'kommande') ms = ms.filter(m => m.datum >= today());
+  return ms;
+}
+
+function toggleTeam(t) {
+  if (t==='ALL') { selTeams = new Set(['ALL']); }
+  else {
+    selTeams.delete('ALL');
+    if (selTeams.has(t)) { selTeams.delete(t); if(!selTeams.size) selTeams=new Set(['ALL']); }
+    else selTeams.add(t);
+  }
+  document.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', selTeams.has(p.dataset.team)));
+  render();
+}
+
+function showTab(tab) {
+  curTab = tab;
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['kommande','alla','statistik'][i]===tab));
+  render();
+}
+
+function toggleCard(id) { expanded.has(id)?expanded.delete(id):expanded.add(id); render(); }
+
+function render() {
+  const gridEl = document.getElementById('matchGrid');
+  const statsEl = document.getElementById('statsPanel');
+  if (curTab==='statistik') { gridEl.style.display='none'; statsEl.style.display=''; renderStats(statsEl); return; }
+  gridEl.style.display=''; statsEl.style.display='none'; statsEl.innerHTML='';
+
+  const ms = filtered();
+  if (!ms.length) { gridEl.innerHTML=`<div class="empty-state"><div class="emoji">⚽</div><p>Inga matcher för valda lag</p></div>`; return; }
+
+  const todayStr = today();
+  const nextIdx = ms.findIndex(m => m.datum >= todayStr);
+  let nextMarked = false, lastMonth = '', html = '';
+
+  ms.forEach((m, idx) => {
+    const mo = monthKey(m.datum);
+    if (mo !== lastMonth) { html += `<div class="month-label">${mo}</div>`; lastMonth = mo; }
+    const past = m.datum < todayStr;
+    const conflict = m.krock==='JA';
+    const trainer = getTrainer(m);
+    const isNext = !nextMarked && idx===nextIdx;
+    if (isNext) nextMarked = true;
+    const exp = expanded.has(idx);
+    const hbC = m.hemma_borta==='Hemma'?'hb-hemma':m.hemma_borta==='Borta'?'hb-borta':'';
+    const hbL = m.hemma_borta==='Hemma'?'H':m.hemma_borta==='Borta'?'B':'';
+    const wd = WD[m.veckodag?.trim()] || (m.veckodag||'').trim().slice(0,3);
+    html += `<div class="match-card${past?' past':''}${conflict?' conflict':''}${exp?' expanded':''}" onclick="toggleCard(${idx})">
+      <div class="card-main">
+        <div class="team-stripe stripe-${m.lag}"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">${wd} ${fmtDate(m.datum)}${isNext?'<span class="next-badge">Nästa</span>':''}</span>
+            <span class="team-badge badge-${m.lag}">${m.lag}</span>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">${m.motstand}</span>
+            ${hbC?`<span class="hb-badge ${hbC}">${hbL}</span>`:''}
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 ${m.tid}</span>
+            <span class="match-series">${m.tavling}${m.omgang?' · Omg '+m.omgang:''}</span>
+            ${conflict?'<div class="conflict-dot"></div>':''}
+          </div>
+        </div>
+      </div>
+      ${trainer
+        ?`<div class="trainer-row"><div class="trainer-icon tc-${trainer}">${initials(trainer)}</div><span class="trainer-name">${trainer}</span><span class="trainer-role">Ansvarig ledare</span></div>`
+        :`<div class="no-trainer">Ansvarig ledare: ej angiven</div>`}
+      <div class="card-detail${exp?' open':''}">
+        <div class="detail-grid">
+          <div><div class="detail-key">Anläggning</div><div class="detail-val">${m.anlaggning||'–'}</div></div>
+          <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">${m.hemma_borta||'–'}</div></div>
+          ${m.flytt_ansvarig&&m.flytt_ansvarig!==m.ansvarig_ledare?`<div><div class="detail-key">Flytt ansvarig</div><div class="detail-val">${m.flytt_ansvarig}</div></div>`:''}
+          ${conflict?`<div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>`:''}
+        </div>
+        ${m.kommentar?`<div class="comment-box">💬 ${m.kommentar}</div>`:''}
+      </div>
+    </div>`;
+  });
+  gridEl.innerHTML = html;
+}
+
+function renderStats(el) {
+  const t0 = today();
+  const tms = ['DAM','SVART','VIT'];
+  const lbs = {DAM:'🔴 Dam',SVART:'⚫ Svart',VIT:'🔵 Vit'};
+  let tc = `<div class="stats-grid">`;
+  tms.forEach(t => {
+    const tm = MATCHES.filter(m=>m.lag===t);
+    tc += `<div class="stat-card"><h3>${lbs[t]}</h3>
+      <div class="stat-row"><span class="stat-key">Totalt</span><span class="stat-val">${tm.length} matcher</span></div>
+      <div class="stat-row"><span class="stat-key">Kommande</span><span class="stat-val">${tm.filter(m=>m.datum>=t0).length}</span></div>
+      <div class="stat-row"><span class="stat-key">Hemma</span><span class="stat-val">${tm.filter(m=>m.hemma_borta==='Hemma').length}</span></div>
+      <div class="stat-row"><span class="stat-key">Borta</span><span class="stat-val">${tm.filter(m=>m.hemma_borta==='Borta').length}</span></div>
+      <div class="stat-row"><span class="stat-key">Krockar</span><span class="stat-val" style="color:var(--orange)">${tm.filter(m=>m.krock==='JA').length}</span></div>
+    </div>`;
+  });
+  tc += `</div>`;
+  const trMap = {};
+  MATCHES.forEach(m => { const t=getTrainer(m); if(t){if(!trMap[t])trMap[t]=[];trMap[t].push(m);} });
+  const trCards = Object.entries(trMap).sort((a,b)=>b[1].length-a[1].length).map(([n,ms])=>{
+    const lines = ms.slice(0,3).map(m=>`<div class="trainer-match-line"><span class="trainer-match-date">${fmtDate(m.datum)}</span><span>${m.lag} vs ${m.motstand}</span></div>`).join('')
+      +(ms.length>3?`<div class="trainer-match-line" style="color:var(--text3)">+ ${ms.length-3} till...</div>`:'');
+    return `<div class="trainer-stat-card"><div class="trainer-stat-header"><div class="trainer-big-icon tc-${n}">${initials(n)}</div><span class="trainer-stat-name">${n}</span><span class="trainer-stat-count">${ms.length}</span></div><div class="trainer-matches-list">${lines}</div></div>`;
+  }).join('');
+  el.innerHTML = `<div class="stat-section-title">Per lag — ${MATCHES.length} matcher totalt</div>${tc}<div class="stat-section-title">Ledare — matcher per ansvarig</div><div class="stats-trainers">${trCards}</div><div style="height:20px"></div>`;
+}
+
+// ── IMPORT ──
+function openImport() { document.getElementById('importOverlay').classList.add('open'); }
+function closeImport() { document.getElementById('importOverlay').classList.remove('open'); setStatus('',''); }
+function overlayClick(e) { if(e.target===document.getElementById('importOverlay')) closeImport(); }
+function setStatus(msg, type) { const el=document.getElementById('importStatus'); el.textContent=msg; el.className='import-status'+(type?' '+type:''); }
+function dragOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag-over'); }
+function dragLeave() { document.getElementById('dropZone').classList.remove('drag-over'); }
+function dropFile(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('drag-over'); if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]); }
+function fileSelected(e) { if(e.target.files[0]) processFile(e.target.files[0]); e.target.value=''; }
+
+function processFile(file) {
+  if (!file.name.match(/\.xlsx?$/i)) { setStatus('⚠️ Välj en .xlsx fil','error'); return; }
+  setStatus('Läser fil…','');
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(e.target.result, {type:'binary', cellDates:true});
+      const sn = wb.SheetNames.find(n=>n.toLowerCase().includes('match')) || wb.SheetNames[0];
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], {header:1, raw:false, dateNF:'yyyy-mm-dd'});
+      if (rows.length < 2) { setStatus('⚠️ Inga data hittades','error'); return; }
+
+      const hdr = rows[0].map(h=>(h||'').toString().toLowerCase().trim());
+      const col = (...names) => { for(const n of names){const i=hdr.findIndex(h=>h.includes(n));if(i>=0)return i;} return -1; };
+      const iD=col('datum'), iV=col('veckodag'), iT=col('starttid','tid'), iL=col('lag');
+      const iTav=col('tävling','tavling','serie'), iO=col('omg'), iHB=col('hemma/borta','hemma');
+      const iM=col('motstånd','motstand'), iA=col('anläggning','anlaggning');
+      const iK=col('krock'), iLed=col('ansvarig ledare','ledare'), iFl=col('flytt ansvarig','flytt'), iCom=col('kommentar');
+
+      if (iD<0||iL<0) { setStatus('⚠️ Kunde inte hitta kolumnerna Datum / Lag','error'); return; }
+
+      const get = (r,i) => i>=0&&r[i] ? r[i].toString().trim() : '';
+      const matches = [];
+      for (let i=1;i<rows.length;i++) {
+        const r = rows[i];
+        const rd = r[iD];
+        if (!rd) continue;
+        let ds = '';
+        if (typeof rd==='string'&&rd.match(/^\d{4}-\d{2}-\d{2}/)) ds=rd.slice(0,10);
+        else if (rd instanceof Date) ds=rd.toISOString().slice(0,10);
+        else if (typeof rd==='string') { const p=rd.split(/[\/\-]/); if(p.length===3) ds=`${p[2].padStart(4,'20')}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`; }
+        if (!ds.match(/^\d{4}-\d{2}-\d{2}$/)) continue;
+        const lag = get(r,iL).toUpperCase();
+        if (!lag) continue;
+        let tid = '–';
+        if (iT>=0&&r[iT]) { const t=r[iT].toString().trim(); if(t.match(/^\d{1,2}:\d{2}/)) tid=t.slice(0,5); }
+        matches.push({datum:ds, veckodag:get(r,iV), tid, lag, tavling:get(r,iTav), omgang:get(r,iO),
+          hemma_borta:get(r,iHB), motstand:get(r,iM), anlaggning:get(r,iA),
+          krock:get(r,iK), ansvarig_ledare:get(r,iLed), flytt_ansvarig:get(r,iFl), kommentar:get(r,iCom)});
+      }
+      if (!matches.length) { setStatus('⚠️ Inga giltiga matcher hittades','error'); return; }
+      matches.sort((a,b)=>a.datum.localeCompare(b.datum));
+      MATCHES = matches;
+      expanded.clear();
+      const now = new Date();
+      const dl = `${now.getDate()} ${MN[now.getMonth()]} ${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      document.getElementById('updateText').textContent = `Uppdaterad: ${dl} · ${file.name} · ${matches.length} matcher`;
+      setStatus(`✅ ${matches.length} matcher importerade!`,'');
+      render();
+      setTimeout(closeImport, 1300);
+    } catch(err) { setStatus('⚠️ Fel: '+err.message,'error'); }
+  };
+  reader.readAsBinaryString(file);
+}
+
+render();
+</script>
+</body>
+</html>
