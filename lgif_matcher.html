@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="sv">
-<head>
+<html lang="sv"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LGIF Matcher 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root {
@@ -216,7 +215,7 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
   <div class="modal" style="max-width:430px">
     <h2>📂 Importera ny Excel-fil</h2>
     <p>Välj den uppdaterade planerings-filen (.xlsx). Kolumnerna Datum, Lag, Motstånd m.fl. läses automatiskt.</p>
-    <div class="import-status" id="importStatus"></div>
+    <div class="import-status" id="importStatus">✅ 60 matcher importerade! Klicka Publicera för att spara permanent.</div>
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFile(event)">
       <div class="drop-zone-icon">📋</div>
       <div class="drop-zone-text">Klicka för att välja fil</div>
@@ -236,9 +235,9 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
       <div class="export-step"><span class="export-step-num">2.</span><span>Gå till ditt GitHub-repo → ladda upp och ersätt <strong>lgif_matcher.html</strong></span></div>
       <div class="export-step"><span class="export-step-num">3.</span><span>GitHub Pages publicerar automatiskt inom ~1 minut</span></div>
     </div>
-    <div id="exportNote" style="font-size:12px;color:var(--text3);font-weight:700;margin-bottom:14px;"></div>
+    <div id="exportNote" style="font-size:12px;color:var(--text3);font-weight:700;margin-bottom:14px;">All data är uppdaterad och redo att publiceras.</div>
     <button class="export-btn" onclick="doExport()">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
       Ladda ner HTML
     </button>
     <div class="modal-actions"><button class="btn-cancel" onclick="closeModal('exportOverlay')">Stäng</button></div>
@@ -255,11 +254,11 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
       </div>
       <div class="hdr-btns">
         <button class="hdr-btn" onclick="openModal('importOverlay')">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
           Importera
         </button>
         <button class="hdr-btn gold" onclick="openExport()">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Publicera
         </button>
       </div>
@@ -277,8 +276,8 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
 
   <div class="update-bar">
     <span class="update-dot"></span>
-    <span id="updateText">Läser in…</span>
-    <span id="unsavedBadge" class="unsaved-badge" style="display:none">Osparade ändringar</span>
+    <span id="updateText">Planering 2026 LGIF.xlsx · 29 Apr 2026 12:32 · 60 matcher</span>
+    <span id="unsavedBadge" class="unsaved-badge" style="display:none">0 lokal ändringar (ej publicerade)</span>
   </div>
 
   <div class="tab-bar">
@@ -288,7 +287,1807 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
   </div>
 
   <div class="content">
-    <div id="matchGrid" class="match-grid"></div>
+    <div id="matchGrid" class="match-grid"><div class="month-label">April 2026</div><div class="match-card" onclick="toggleCard(0)" data-editid="0">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 29 Apr<span class="next-badge">Nästa</span></span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Floda BoIF F11</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 4</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Henrik">HE</div><span class="trainer-name">Henrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(0,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="month-label">Maj 2026</div><div class="match-card" onclick="toggleCard(1)" data-editid="1">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 2 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">BK Häcken F2011 lag 2</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 14:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 4</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Martin">MA</div><span class="trainer-name">Martin</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          <div class="comment-box">💬 Martin: Bekräftat byte till 2025-05-02  14:30</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(1,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(2)" data-editid="2">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 5 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Donsö IS</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 6</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(2,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(3)" data-editid="3">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 6 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Azalea BK F2011</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:45</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 5</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Fredrik">FR</div><span class="trainer-name">Fredrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Majvallen 1</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(3,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(4)" data-editid="4">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 7 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Bergums IF U-trupp flickor 2011-2012</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 5</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Anna">AN</div><span class="trainer-name">Anna</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(4,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(5)" data-editid="5">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 11 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Hovås Billdal IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:45</span>
+            <span class="match-series">Division 4A Dam · Omg 4</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(5,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(6)" data-editid="6">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 13 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Lerums IS</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 6</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Magnus">MA</div><span class="trainer-name">Magnus</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Rydsbergsplan 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          <div class="comment-box">💬 Gbg cup 14-17 maj</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(6,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(7)" data-editid="7">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 15 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Onsala BK F2012</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 6</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Tobias">TO</div><span class="trainer-name">Tobias</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          <div class="comment-box">💬 Gbg cup 14-17 maj</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(7,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(8)" data-editid="8">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 18 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Näsets SK (B)</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 8</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(8,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(9)" data-editid="9">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 20 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Särö Kullavik IF</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 7</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Jenni">JE</div><span class="trainer-name">Jenni</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Särö IP A</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(9,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(10)" data-editid="10">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 21 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IFK Hindås F-11/12</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 7</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Henrik">HE</div><span class="trainer-name">Henrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(10,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(11)" data-editid="11">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 26 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Södra Skärgårdens IK F11-12</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 18:15</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 10</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Magnus">MA</div><span class="trainer-name">Magnus</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Donsövallen</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            <div><div class="detail-key">Flytt ansvarig</div><div class="detail-val">Henrik</div></div>
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          <div class="comment-box">💬 HC flyttad Båt 17:05_ 20:30</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(11,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(12)" data-editid="12">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 28 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Mölnlycke IF</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:00</span>
+            <span class="match-series">Division 4A Dam · Omg 9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Djupedalsplan B Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(12,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(13)" data-editid="13">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 29 Maj</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Torslanda IK F2011</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 8</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Martin">MA</div><span class="trainer-name">Martin</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(13,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="month-label">Juni 2026</div><div class="match-card" onclick="toggleCard(14)" data-editid="14">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 2 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Mossens BK (B)</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 10</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(14,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(15)" data-editid="15">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 7 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Södra Skärgårdens IK F11-12</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 16:15</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Anna">AN</div><span class="trainer-name">Anna</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(15,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(16)" data-editid="16">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 13 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Öjersjö IF</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 12:15</span>
+            <span class="match-series">Division 4A Dam · Omg 11</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Öjersjö IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          <div class="comment-box">💬 Örebro cup 13-15 Juni</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(16,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(17)" data-editid="17">
+      <div class="card-main">
+        <div class="team-stripe stripe-F16"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 13 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-F16">F16</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent"></span>
+            
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 –</span>
+            <span class="match-series">Örebrocup dag 1</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Örebro</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">–</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(17,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(18)" data-editid="18">
+      <div class="card-main">
+        <div class="team-stripe stripe-F16"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 14 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-F16">F16</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent"></span>
+            
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 –</span>
+            <span class="match-series">Örebrocup dag 2</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Örebro</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">–</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(18,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(19)" data-editid="19">
+      <div class="card-main">
+        <div class="team-stripe stripe-F16"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Mån 15 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-F16">F16</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent"></span>
+            
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 –</span>
+            <span class="match-series">Örebrocup dag 3</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Örebro</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">–</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(19,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(20)" data-editid="20">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 16 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Kållered SK</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 12</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          <div class="comment-box">💬 Örebro cup 13-15 Juni</div>
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(20,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(21)" data-editid="21">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 23 Jun</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IK Virgo</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:00</span>
+            <span class="match-series">Division 4A Dam · Omg 13</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Mossens IP 1 Gräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(21,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="month-label">Augusti 2026</div><div class="match-card" onclick="toggleCard(22)" data-editid="22">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 11 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IF Mölndal Fotboll</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 14</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(22,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(23)" data-editid="23">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 19 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Torslanda IK F2011</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 11</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Fredrik">FR</div><span class="trainer-name">Fredrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Torslandavallen 1 Gräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(23,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(24)" data-editid="24">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 23 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Hovås Billdal IF</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 16:00</span>
+            <span class="match-series">Division 4A Dam · Omg 15</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Hovåsvallen 1 Gräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(24,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(25)" data-editid="25">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 25 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Göteborgs SIF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 16</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(25,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(26)" data-editid="26">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 26 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IFK Hindås F-11/12</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 12</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Henrik">HE</div><span class="trainer-name">Henrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Fagervallen 2 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(26,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(27)" data-editid="27">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 27 Aug</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Särö Kullavik IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 12</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Tobias">TO</div><span class="trainer-name">Tobias</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(27,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="month-label">September 2026</div><div class="match-card conflict" onclick="toggleCard(28)" data-editid="28">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 1 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Onsala BK F2012</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 13</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Jenni">JE</div><span class="trainer-name">Jenni</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Rydets IP A konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(28,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(29)" data-editid="29">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 2 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Lerums IS</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 13</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Anna">AN</div><span class="trainer-name">Anna</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(29,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(30)" data-editid="30">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 6 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Donsö IS</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 15:30</span>
+            <span class="match-series">Division 4A Dam · Omg 17</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Donsövallen</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(30,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(31)" data-editid="31">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 10 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Azalea BK F2011</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 14</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Martin">MA</div><span class="trainer-name">Martin</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(31,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(32)" data-editid="32">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 10 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Bergums IF U-trupp flickor 2011-2012</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 14</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Magnus">MA</div><span class="trainer-name">Magnus</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Bergumsvallen Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(32,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(33)" data-editid="33">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 16 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Floda BoIF F11</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 15</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Henrik">HE</div><span class="trainer-name">Henrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Flodala IP 3 KG</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(33,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(34)" data-editid="34">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 16 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Näsets SK (B)</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:15</span>
+            <span class="match-series">Division 4A Dam · Omg 19</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Näset Yuncture Arena</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(34,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(35)" data-editid="35">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 18 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">BK Häcken F2011 lag 2</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 20:15</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 15</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Fredrik">FR</div><span class="trainer-name">Fredrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Slättadamm 2 konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(35,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(36)" data-editid="36">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 22 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Mölnlycke IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Division 4A Dam · Omg 20</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(36,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(37)" data-editid="37">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 24 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Nödinge SK Fotboll</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 16</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Anna">AN</div><span class="trainer-name">Anna</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(37,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(38)" data-editid="38">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 25 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Hovås Billdal IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 16</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Tobias">TO</div><span class="trainer-name">Tobias</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(38,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="month-label">Oktober 2026</div><div class="match-card conflict" onclick="toggleCard(39)" data-editid="39">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 2 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IK Zenith F16 2</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 18:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 17</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Jenni">JE</div><span class="trainer-name">Jenni</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Hovgårdsvallen 2 Konstgräs (Bjurforsplanen)</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(39,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(40)" data-editid="40">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Fre 2 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Älvängens IK F11</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:00</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 17</span>
+            <div class="conflict-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Magnus">MA</div><span class="trainer-name">Magnus</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Älvevi 2 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            <div><div class="detail-key">Krock</div><div class="detail-val" style="color:var(--orange)">⚠️ Ja</div></div>
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(40,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(41)" data-editid="41">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 4 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Mossens BK (B)</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 18:15</span>
+            <span class="match-series">Division 4A Dam · Omg 21</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Valhalla 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(41,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(42)" data-editid="42">
+      <div class="card-main">
+        <div class="team-stripe stripe-VIT"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tis 6 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-VIT">VIT</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Lekstorps IF F11/12 vit</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp C · Omg 18</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Martin">MA</div><span class="trainer-name">Martin</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(42,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(43)" data-editid="43">
+      <div class="card-main">
+        <div class="team-stripe stripe-SVART"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Tor 8 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-SVART">SVART</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Surte/Ahlafors</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Flickor 2010-2011 Lätt Grupp B · Omg 18</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="trainer-row"><div class="trainer-icon tc-Henrik">HE</div><span class="trainer-name">Henrik</span><span class="trainer-role">Ansvarig ledare</span></div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(43,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(44)" data-editid="44">
+      <div class="card-main">
+        <div class="team-stripe stripe-DAM"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 11 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-DAM">DAM</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Öjersjö IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 14:15</span>
+            <span class="match-series">Division 4A Dam · Omg 22</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">Lindevi IP 1 Konstgräs</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(44,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div></div>
     <div id="statsPanel" style="display:none"></div>
   </div>
 </div>
@@ -319,6 +2118,7 @@ let selTeams = new Set(['ALL']);
 let curTab = 'kommande';
 let expandedCards = new Set();
 let editingCard = null;
+let importDone = false; // set to true when Excel is imported
 
 // ─────────────────────────────────────────────
 // MATCH ID  (stable key for overrides)
@@ -658,6 +2458,7 @@ function processFile(file) {
       // Replace BASE_MATCHES reference — we reload page with baked data via export,
       // but for now just update MATCHES and clear overrides
       MATCHES = matches;
+      importDone = true;
       overrides = {};
       saveOverrides();
 
@@ -692,8 +2493,8 @@ function doExport() {
     const id = matchId(m);
     return overrides[id] ? {...m,...overrides[id]} : {...m};
   });
-  // If a full import was done (MATCHES differs from BASE), use MATCHES as source
-  if (MATCHES.length !== BASE_MATCHES.length) {
+  // If Excel was imported, always use MATCHES (ignore BASE_MATCHES completely)
+  if (importDone) {
     finalMatches.length = 0;
     MATCHES.forEach(m => finalMatches.push({...m}));
   }
@@ -751,5 +2552,6 @@ applyOverrides();
 updateBar();
 render();
 </script>
-</body>
-</html>
+
+
+</body></html>
