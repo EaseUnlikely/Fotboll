@@ -710,20 +710,25 @@ function doExport() {
         `/*MATCHES_JSON_START*/${jsonStr}/*MATCHES_JSON_END*/`
       );
       
-      // FIX: Clear overrides after export to reset UI badge
-      overrides = {};
-      localStorage.removeItem(LS_KEY);
-      applyOverrides();
-      updateBar();
-      render();
-
       const blob = new Blob([updated], {type:'text/html;charset=utf-8'});
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'lgif_matcher.html';
       a.click();
       URL.revokeObjectURL(a.href);
+      
+      // Clear overrides and close modal
+      overrides = {};
+      localStorage.removeItem(LS_KEY);
       closeModal('exportOverlay');
+      
+      // Show success message and reload after a delay so the user sees feedback
+      alert('✅ Fil sparad!\n\n1. Ladda upp filen till GitHub (ersätt lgif_matcher.html)\n2. Vänta ~1 minut på GitHub Pages publicering\n3. Öppna sidan på nytt för att se uppdaterad data');
+      
+      // Auto-reload after a longer delay to allow user to see the success message
+      setTimeout(() => {
+        location.reload();
+      }, 3000);
     })
     .catch(()=>{
       // Fallback: build from template in memory (when served from file://)
