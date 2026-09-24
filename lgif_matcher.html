@@ -73,12 +73,16 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
 .match-card.past { opacity: 0.52; }
 .match-card.conflict { border-left: 4px solid var(--orange); }
 .match-card.edited { border-top: 3px solid var(--gold); }
+/* 2012/2013 are intentionally visible but visually subdued. */
+.match-card.youth-muted { opacity: 0.58; filter: saturate(0.55); }
+.match-card.youth-muted:hover { opacity: 0.78; filter: saturate(0.8); }
 
 .card-main { display: flex; align-items: stretch; }
 .team-stripe { width: 6px; flex-shrink: 0; }
 .stripe-DAM { background: linear-gradient(180deg,#9b2246,#c43068); }
 .stripe-SVART { background: linear-gradient(180deg,#1a1a1a,#444); }
 .stripe-VIT { background: linear-gradient(180deg,#4a90d9,#2a70b8); }
+.stripe-2012, .stripe-2013 { background: #b8c3b8; }
 
 .card-body { flex: 1; padding: 10px 12px 9px; min-width: 0; }
 .card-row1 { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; gap: 6px; }
@@ -86,6 +90,7 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
 .right-badges { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
 .team-badge { font-size: 10px; font-weight: 900; border-radius: 5px; padding: 2px 6px; text-transform: uppercase; }
 .badge-DAM { background:#fce4ec;color:#9b2246; } .badge-SVART { background:#f0f0f0;color:#222; } .badge-VIT { background:#e3f0fb;color:#1a5a9a; }
+.badge-2012, .badge-2013 { background:#edf1ed;color:#718071; }
 .edited-badge { font-size: 9px; font-weight: 900; background: #fff8e1; color: #c47800; border-radius: 4px; padding: 2px 5px; }
 
 .card-row2 { display: flex; align-items: baseline; gap: 7px; margin-bottom: 2px; }
@@ -215,7 +220,7 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
   <div class="modal" style="max-width:430px">
     <h2>📂 Importera ny Excel-fil</h2>
     <p>Välj den uppdaterade planerings-filen (.xlsx). Kolumnerna Datum, Lag, Motstånd m.fl. läses automatiskt.</p>
-    <div class="import-status" id="importStatus">✅ 60 matcher importerade! Klicka Publicera för att spara permanent.</div>
+    <div class="import-status" id="importStatus">✅ 70 matcher importerade! Klicka Publicera för att spara permanent.</div>
     <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFile(event)">
       <div class="drop-zone-icon">📋</div>
       <div class="drop-zone-text">Klicka för att välja fil</div>
@@ -270,13 +275,15 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
         <div class="pill" data-team="DAM" onclick="toggleTeam('DAM')">Dam</div>
         <div class="pill" data-team="SVART" onclick="toggleTeam('SVART')">Svart</div>
         <div class="pill" data-team="VIT" onclick="toggleTeam('VIT')">Vit</div>
+        <div class="pill" data-team="2012" onclick="toggleTeam('2012')">2012</div>
+        <div class="pill" data-team="2013" onclick="toggleTeam('2013')">2013</div>
       </div>
     </div>
   </div>
 
   <div class="update-bar">
     <span class="update-dot"></span>
-    <span id="updateText">Planering 2026 LGIF.xlsx · 24 Sep 2026 09:14 · 60 matcher</span>
+    <span id="updateText">Planering 2026 LGIF.xlsx · 24 Sep 2026 10:47 · 70 matcher</span>
     <span id="unsavedBadge" class="unsaved-badge" style="display:none">0 lokal ändringar (ej publicerade)</span>
   </div>
 
@@ -327,7 +334,87 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
         </div>
         
       </div>
-    </div><div class="match-card conflict" onclick="toggleCard(1)" data-editid="1">
+    </div><div class="match-card" onclick="toggleCard(1)" data-editid="1">
+      <div class="card-main">
+        <div class="team-stripe stripe-2012"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 26 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2012">2012</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Hovås Billdal IF</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 13:00</span>
+            <span class="match-series">Stor 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(1,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(2)" data-editid="2">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 27 Sep</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Älvängens IK F13</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 12:45</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(2,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card conflict" onclick="toggleCard(3)" data-editid="3">
       <div class="card-main">
         <div class="team-stripe stripe-DAM"></div>
         <div class="card-body">
@@ -361,13 +448,13 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(1,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(3,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="month-label">Oktober 2026</div><div class="match-card conflict" onclick="toggleCard(2)" data-editid="2">
+    </div><div class="month-label">Oktober 2026</div><div class="match-card conflict" onclick="toggleCard(4)" data-editid="4">
       <div class="card-main">
         <div class="team-stripe stripe-SVART"></div>
         <div class="card-body">
@@ -401,13 +488,13 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(2,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(4,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card conflict" onclick="toggleCard(3)" data-editid="3">
+    </div><div class="match-card conflict" onclick="toggleCard(5)" data-editid="5">
       <div class="card-main">
         <div class="team-stripe stripe-VIT"></div>
         <div class="card-body">
@@ -441,13 +528,53 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(3,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(5,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(4)" data-editid="4">
+    </div><div class="match-card" onclick="toggleCard(6)" data-editid="6">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 3 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IK Kongahälla</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 15:30</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(6,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(7)" data-editid="7">
       <div class="card-main">
         <div class="team-stripe stripe-DAM"></div>
         <div class="card-body">
@@ -481,13 +608,53 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(4,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(7,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(5)" data-editid="5">
+    </div><div class="match-card" onclick="toggleCard(8)" data-editid="8">
+      <div class="card-main">
+        <div class="team-stripe stripe-2012"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 4 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2012">2012</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Öjersjö IF</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 18:30</span>
+            <span class="match-series">Stor9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(8,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(9)" data-editid="9">
       <div class="card-main">
         <div class="team-stripe stripe-VIT"></div>
         <div class="card-body">
@@ -521,13 +688,13 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(5,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(9,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card conflict" onclick="toggleCard(6)" data-editid="6">
+    </div><div class="match-card conflict" onclick="toggleCard(10)" data-editid="10">
       <div class="card-main">
         <div class="team-stripe stripe-DAM"></div>
         <div class="card-body">
@@ -561,13 +728,13 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(6,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(10,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(7)" data-editid="7">
+    </div><div class="match-card" onclick="toggleCard(11)" data-editid="11">
       <div class="card-main">
         <div class="team-stripe stripe-SVART"></div>
         <div class="card-body">
@@ -601,13 +768,13 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(7,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(11,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(8)" data-editid="8">
+    </div><div class="match-card" onclick="toggleCard(12)" data-editid="12">
       <div class="card-main">
         <div class="team-stripe stripe-DAM"></div>
         <div class="card-body">
@@ -641,13 +808,53 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(8,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(12,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(9)" data-editid="9">
+    </div><div class="match-card" onclick="toggleCard(13)" data-editid="13">
+      <div class="card-main">
+        <div class="team-stripe stripe-2012"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 10 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2012">2012</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Örgryte</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 13:45</span>
+            <span class="match-series">Stor9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(13,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(14)" data-editid="14">
       <div class="card-main">
         <div class="team-stripe stripe-DAM"></div>
         <div class="card-body">
@@ -681,13 +888,133 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(9,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(14,event)">✏️ Redigera</button>
             
           </div>
         </div>
         
       </div>
-    </div><div class="match-card" onclick="toggleCard(10)" data-editid="10">
+    </div><div class="match-card" onclick="toggleCard(15)" data-editid="15">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 11 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Galacticos</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 14:00</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(15,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(16)" data-editid="16">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 17 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Finlandia</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 12:30</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(16,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(17)" data-editid="17">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Sön 18 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">IF Warta</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 14:30</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(17,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(18)" data-editid="18">
       <div class="card-main">
         <div class="team-stripe stripe-SVART"></div>
         <div class="card-body">
@@ -721,7 +1048,87 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
           </div>
           
           <div class="edit-btn-row">
-            <button class="edit-btn primary" onclick="openEdit(10,event)">✏️ Redigera</button>
+            <button class="edit-btn primary" onclick="openEdit(18,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(19)" data-editid="19">
+      <div class="card-main">
+        <div class="team-stripe stripe-2012"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Ons 21 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2012">2012</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Kållered SK</span>
+            <span class="hb-badge hb-borta">B</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 19:30</span>
+            <span class="match-series">Stor9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Borta</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(19,event)">✏️ Redigera</button>
+            
+          </div>
+        </div>
+        
+      </div>
+    </div><div class="match-card" onclick="toggleCard(20)" data-editid="20">
+      <div class="card-main">
+        <div class="team-stripe stripe-2013"></div>
+        <div class="card-body">
+          <div class="card-row1">
+            <span class="match-date">Lör 24 Okt</span>
+            <div class="right-badges">
+              
+              <span class="team-badge badge-2013">2013</span>
+            </div>
+          </div>
+          <div class="card-row2">
+            <span class="opponent">Södra Skärgårdens</span>
+            <span class="hb-badge hb-hemma">H</span>
+          </div>
+          <div class="card-row3">
+            <span class="match-time">🕐 13:30</span>
+            <span class="match-series">liten 9m9</span>
+            
+          </div>
+        </div>
+      </div>
+      <div class="no-trainer">Ansvarig ledare: ej angiven</div>
+      <div class="card-detail">
+        
+        <div class="detail-view">
+          <div class="detail-grid">
+            <div><div class="detail-key">Anläggning</div><div class="detail-val">–</div></div>
+            <div><div class="detail-key">Hemma/Borta</div><div class="detail-val">Hemma</div></div>
+            
+            
+          </div>
+          
+          <div class="edit-btn-row">
+            <button class="edit-btn primary" onclick="openEdit(20,event)">✏️ Redigera</button>
             
           </div>
         </div>
@@ -736,7 +1143,7 @@ html, body { height: 100%; background: var(--bg); font-family: 'Nunito', sans-se
 // ─────────────────────────────────────────────
 // EMBEDDED BASE DATA  (uppdateras av Publicera)
 // ─────────────────────────────────────────────
-const BASE_MATCHES = /*MATCHES_JSON_START*/[{"datum":"2026-03-08","veckodag":"Söndag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"Norsktlag","anlaggning":"Priritet Serneke Arena","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-12","veckodag":"Torsdag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Lindome GIF (D4D)","motstand":"Tvååkers IF (D4D)","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-13","veckodag":"Fredag","tid":"–","lag":"SVART","tavling":"","omgang":"","hemma_borta":"Hemma","motstand":"BK Häcken","anlaggning":"Lindevi","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-15","veckodag":"Söndag","tid":"–","lag":"SVART","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"ÅSA","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-28","veckodag":"Lördag","tid":"–","lag":"VIT","tavling":"Träningsmatch","omgang":"","hemma_borta":"Hemma","motstand":"Kungsbacka","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-31","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"1","hemma_borta":"Borta","motstand":"Kållered SK","anlaggning":"Kållered Sportcenter 1","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-07","veckodag":"Tisdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"1","hemma_borta":"Borta","motstand":"Surte/Ahlafors","anlaggning":"Surte 2 Konstgräs","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"Henrik","kommentar":"Påsklov; Flyttad till tisdag 7e April (Hernik)"},{"datum":"2026-04-08","veckodag":"Onsdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"2","hemma_borta":"Hemma","motstand":"IK Virgo","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-09","veckodag":"Torsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"1","hemma_borta":"Borta","motstand":"Lekstorps IF F11/12 vit","anlaggning":"LP - Idrottspark A - plan","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-14","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"3","hemma_borta":"Borta","motstand":"IF Mölndal Fotboll","anlaggning":"Åbyvallen 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"Jenni","kommentar":"Sverige Match; flyttad"},{"datum":"2026-04-16","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"2","hemma_borta":"Hemma","motstand":"Älvängens IK F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":"Sverige Match; info dam"},{"datum":"2026-04-18","veckodag":"Lördag","tid":"13:45","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"2","hemma_borta":"Hemma","motstand":"IK Zenith F16 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Tobias","flytt_ansvarig":"Tobias","kommentar":""},{"datum":"2026-04-22","veckodag":"Onsdag","tid":"20:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"3","hemma_borta":"Borta","motstand":"Nödinge SK Fotboll","anlaggning":"Vimmervi 2 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-24","veckodag":"Fredag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"3","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovås Billdal Arena 1","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":"Flytta ej klara matchen med olika spelare"},{"datum":"2026-04-28","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"5","hemma_borta":"Borta","motstand":"Göteborgs SIF","anlaggning":"Guldheden Södra 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-29","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"4","hemma_borta":"Hemma","motstand":"Floda BoIF F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-02","veckodag":"Lördag","tid":"14:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"4","hemma_borta":"Hemma","motstand":"BK Häcken F2011 lag 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-05","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"6","hemma_borta":"Hemma","motstand":"Donsö IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Martin: Bekräftat byte till 2025-05-02  14:30"},{"datum":"2026-05-06","veckodag":"Onsdag","tid":"19:45","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"5","hemma_borta":"Borta","motstand":"Azalea BK F2011","anlaggning":"Majvallen 1","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-07","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"5","hemma_borta":"Hemma","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-11","veckodag":"Måndag","tid":"19:45","lag":"DAM","tavling":"Division 4A Dam","omgang":"4","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-11","veckodag":"Måndag","tid":"20:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"6","hemma_borta":"Borta","motstand":"Lerums IS","anlaggning":"Rydsbergsplan 1 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-15","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"6","hemma_borta":"Hemma","motstand":"Onsala BK F2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-18","veckodag":"Måndag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"8","hemma_borta":"Hemma","motstand":"Näsets SK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-20","veckodag":"Onsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"7","hemma_borta":"Borta","motstand":"Särö Kullavik IF","anlaggning":"Särö IP A","krock":"","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-21","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"7","hemma_borta":"Hemma","motstand":"IFK Hindås F-11/12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-26","veckodag":"Tisdag","tid":"18:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"10","hemma_borta":"Borta","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Donsövallen","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"Henrik","kommentar":""},{"datum":"2026-05-28","veckodag":"Torsdag","tid":"20:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"9","hemma_borta":"Borta","motstand":"Mölnlycke IF","anlaggning":"Djupedalsplan B Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-29","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"8","hemma_borta":"Hemma","motstand":"Torslanda IK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-02","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"10","hemma_borta":"Hemma","motstand":"Mossens BK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-07","veckodag":"Söndag","tid":"16:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"9","hemma_borta":"Hemma","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-06-13","veckodag":"Lördag","tid":"–","lag":"F16","tavling":"Örebrocup dag 1","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-14","veckodag":"Söndag","tid":"–","lag":"F16","tavling":"Örebrocup dag 2","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-15","veckodag":"Måndag","tid":"–","lag":"F16","tavling":"Örebrocup dag 3","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-16","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"12","hemma_borta":"Hemma","motstand":"Kållered SK","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"HC flyttad Båt 17:05_ 20:30"},{"datum":"2026-06-23","veckodag":"Tisdag","tid":"19:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"13","hemma_borta":"Borta","motstand":"IK Virgo","anlaggning":"Mossens IP 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-08-11","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"14","hemma_borta":"Hemma","motstand":"IF Mölndal Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-18","veckodag":"Tisdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"11","hemma_borta":"Borta","motstand":"Torslanda IK F2011","anlaggning":"Torslandavallen 1 Gräs","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-23","veckodag":"Söndag","tid":"16:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"15","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovåsvallen 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Gothia  12- 18 Juli"},{"datum":"2026-08-26","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"12","hemma_borta":"Borta","motstand":"IFK Hindås F-11/12","anlaggning":"Fagervallen 2 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-27","veckodag":"Torsdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"12","hemma_borta":"Hemma","motstand":"Särö Kullavik IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-31","veckodag":"Måndag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"16","hemma_borta":"Hemma","motstand":"Göteborgs SIF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-01","veckodag":"Tisdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"13","hemma_borta":"Borta","motstand":"Onsala BK F2012","anlaggning":"Rydets IP A konstgräs","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-02","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"13","hemma_borta":"Hemma","motstand":"Lerums IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-06","veckodag":"Söndag","tid":"15:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"17","hemma_borta":"Borta","motstand":"Donsö IS","anlaggning":"Donsövallen","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-08","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"14","hemma_borta":"Hemma","motstand":"Azalea BK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-10","veckodag":"Torsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"14","hemma_borta":"Borta","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Bergumsvallen Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-16","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"15","hemma_borta":"Borta","motstand":"Floda BoIF F11","anlaggning":"Flodala IP 3 KG","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-18","veckodag":"Fredag","tid":"20:15","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"15","hemma_borta":"Borta","motstand":"BK Häcken F2011 lag 2","anlaggning":"Slättadamm 2 konstgräs","krock":"JA","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-25","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"16","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-30","veckodag":"Onsdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"11","hemma_borta":"Borta","motstand":"Öjersjö IF","anlaggning":"Öjersjö IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"19:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"17","hemma_borta":"Borta","motstand":"Älvängens IK F11","anlaggning":"Älvevi 2 Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"18:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"17","hemma_borta":"Borta","motstand":"IK Zenith F16 2","anlaggning":"Hovgårdsvallen 2 Konstgräs (Bjurforsplanen)","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-04","veckodag":"Söndag","tid":"18:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"21","hemma_borta":"Borta","motstand":"Mossens BK (B)","anlaggning":"Valhalla 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-06","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"18","hemma_borta":"Hemma","motstand":"Lekstorps IF F11/12 vit","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-07","veckodag":"Onsdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"19","hemma_borta":"Borta","motstand":"Näsets SK (B)","anlaggning":"Näset Yuncture Arena","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-08","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"18","hemma_borta":"Hemma","motstand":"Surte/Ahlafors","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-08","veckodag":"Torsdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"20","hemma_borta":"Hemma","motstand":"Mölnlycke IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-11","veckodag":"Söndag","tid":"14:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"22","hemma_borta":"Hemma","motstand":"Öjersjö IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-21","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"16","hemma_borta":"Hemma","motstand":"Nödinge SK Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""}]/*MATCHES_JSON_END*/;
+const BASE_MATCHES = /*MATCHES_JSON_START*/[{"datum":"2026-03-08","veckodag":"Söndag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"Norsktlag","anlaggning":"Priritet Serneke Arena","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-12","veckodag":"Torsdag","tid":"–","lag":"DAM","tavling":"Träningsmatch","omgang":"","hemma_borta":"Lindome GIF (D4D)","motstand":"Tvååkers IF (D4D)","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-13","veckodag":"Fredag","tid":"–","lag":"SVART","tavling":"","omgang":"","hemma_borta":"Hemma","motstand":"BK Häcken","anlaggning":"Lindevi","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-15","veckodag":"Söndag","tid":"–","lag":"SVART","tavling":"Träningsmatch","omgang":"","hemma_borta":"Borta","motstand":"ÅSA","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-28","veckodag":"Lördag","tid":"–","lag":"VIT","tavling":"Träningsmatch","omgang":"","hemma_borta":"Hemma","motstand":"Kungsbacka","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-03-31","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"1","hemma_borta":"Borta","motstand":"Kållered SK","anlaggning":"Kållered Sportcenter 1","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-07","veckodag":"Tisdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"1","hemma_borta":"Borta","motstand":"Surte/Ahlafors","anlaggning":"Surte 2 Konstgräs","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"Henrik","kommentar":"Påsklov; Flyttad till tisdag 7e April (Hernik)"},{"datum":"2026-04-08","veckodag":"Onsdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"2","hemma_borta":"Hemma","motstand":"IK Virgo","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-09","veckodag":"Torsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"1","hemma_borta":"Borta","motstand":"Lekstorps IF F11/12 vit","anlaggning":"LP - Idrottspark A - plan","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":"Påsklov"},{"datum":"2026-04-14","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"3","hemma_borta":"Borta","motstand":"IF Mölndal Fotboll","anlaggning":"Åbyvallen 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"Jenni","kommentar":"Sverige Match; flyttad"},{"datum":"2026-04-16","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"2","hemma_borta":"Hemma","motstand":"Älvängens IK F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":"Sverige Match; info dam"},{"datum":"2026-04-18","veckodag":"Lördag","tid":"13:45","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"2","hemma_borta":"Hemma","motstand":"IK Zenith F16 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Tobias","flytt_ansvarig":"Tobias","kommentar":""},{"datum":"2026-04-22","veckodag":"Onsdag","tid":"20:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"3","hemma_borta":"Borta","motstand":"Nödinge SK Fotboll","anlaggning":"Vimmervi 2 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-24","veckodag":"Fredag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"3","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovås Billdal Arena 1","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":"Flytta ej klara matchen med olika spelare"},{"datum":"2026-04-28","veckodag":"Tisdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"5","hemma_borta":"Borta","motstand":"Göteborgs SIF","anlaggning":"Guldheden Södra 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-04-29","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"4","hemma_borta":"Hemma","motstand":"Floda BoIF F11","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-02","veckodag":"Lördag","tid":"14:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"4","hemma_borta":"Hemma","motstand":"BK Häcken F2011 lag 2","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-05","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"6","hemma_borta":"Hemma","motstand":"Donsö IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Martin: Bekräftat byte till 2025-05-02  14:30"},{"datum":"2026-05-06","veckodag":"Onsdag","tid":"19:45","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"5","hemma_borta":"Borta","motstand":"Azalea BK F2011","anlaggning":"Majvallen 1","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-07","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"5","hemma_borta":"Hemma","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-11","veckodag":"Måndag","tid":"19:45","lag":"DAM","tavling":"Division 4A Dam","omgang":"4","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-11","veckodag":"Måndag","tid":"20:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"6","hemma_borta":"Borta","motstand":"Lerums IS","anlaggning":"Rydsbergsplan 1 Konstgräs","krock":"","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-15","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"6","hemma_borta":"Hemma","motstand":"Onsala BK F2012","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":"Gbg cup 14-17 maj"},{"datum":"2026-05-18","veckodag":"Måndag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"8","hemma_borta":"Hemma","motstand":"Näsets SK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-20","veckodag":"Onsdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"7","hemma_borta":"Borta","motstand":"Särö Kullavik IF","anlaggning":"Särö IP A","krock":"","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-21","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"7","hemma_borta":"Hemma","motstand":"IFK Hindås F-11/12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-26","veckodag":"Tisdag","tid":"18:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"10","hemma_borta":"Borta","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Donsövallen","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"Henrik","kommentar":""},{"datum":"2026-05-28","veckodag":"Torsdag","tid":"20:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"9","hemma_borta":"Borta","motstand":"Mölnlycke IF","anlaggning":"Djupedalsplan B Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-05-29","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"8","hemma_borta":"Hemma","motstand":"Torslanda IK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-02","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"10","hemma_borta":"Hemma","motstand":"Mossens BK (B)","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-07","veckodag":"Söndag","tid":"16:15","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"9","hemma_borta":"Hemma","motstand":"Södra Skärgårdens IK F11-12","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-06-13","veckodag":"Lördag","tid":"–","lag":"F16","tavling":"Örebrocup dag 1","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-14","veckodag":"Söndag","tid":"–","lag":"F16","tavling":"Örebrocup dag 2","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-15","veckodag":"Måndag","tid":"–","lag":"F16","tavling":"Örebrocup dag 3","omgang":"","hemma_borta":"","motstand":"","anlaggning":"Örebro","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-06-16","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"12","hemma_borta":"Hemma","motstand":"Kållered SK","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"HC flyttad Båt 17:05_ 20:30"},{"datum":"2026-06-23","veckodag":"Tisdag","tid":"19:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"13","hemma_borta":"Borta","motstand":"IK Virgo","anlaggning":"Mossens IP 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Örebro cup 13-15 Juni"},{"datum":"2026-08-11","veckodag":"Tisdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"14","hemma_borta":"Hemma","motstand":"IF Mölndal Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-18","veckodag":"Tisdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"11","hemma_borta":"Borta","motstand":"Torslanda IK F2011","anlaggning":"Torslandavallen 1 Gräs","krock":"","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-23","veckodag":"Söndag","tid":"16:00","lag":"DAM","tavling":"Division 4A Dam","omgang":"15","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"Hovåsvallen 1 Gräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":"Gothia  12- 18 Juli"},{"datum":"2026-08-26","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"12","hemma_borta":"Borta","motstand":"IFK Hindås F-11/12","anlaggning":"Fagervallen 2 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-27","veckodag":"Torsdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"12","hemma_borta":"Hemma","motstand":"Särö Kullavik IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-08-31","veckodag":"Måndag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"16","hemma_borta":"Hemma","motstand":"Göteborgs SIF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-01","veckodag":"Tisdag","tid":"19:00","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"13","hemma_borta":"Borta","motstand":"Onsala BK F2012","anlaggning":"Rydets IP A konstgräs","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-02","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"13","hemma_borta":"Hemma","motstand":"Lerums IS","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-06","veckodag":"Söndag","tid":"15:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"17","hemma_borta":"Borta","motstand":"Donsö IS","anlaggning":"Donsövallen","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-08","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"14","hemma_borta":"Hemma","motstand":"Azalea BK F2011","anlaggning":"Lindevi IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-10","veckodag":"Torsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"14","hemma_borta":"Borta","motstand":"Bergums IF U-trupp flickor 2011-2012","anlaggning":"Bergumsvallen Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-16","veckodag":"Onsdag","tid":"20:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"15","hemma_borta":"Borta","motstand":"Floda BoIF F11","anlaggning":"Flodala IP 3 KG","krock":"JA","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-18","veckodag":"Fredag","tid":"20:15","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"15","hemma_borta":"Borta","motstand":"BK Häcken F2011 lag 2","anlaggning":"Slättadamm 2 konstgräs","krock":"JA","ansvarig_ledare":"Fredrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-25","veckodag":"Fredag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"16","hemma_borta":"Hemma","motstand":"Hovås Billdal IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Tobias","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-26","veckodag":"Lördag","tid":"13:00","lag":"2012","tavling":"Stor 9m9","omgang":"","hemma_borta":"Borta","motstand":"Hovås Billdal IF","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-27","veckodag":"Söndag","tid":"12:45","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Hemma","motstand":"Älvängens IK F13","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-09-30","veckodag":"Onsdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"11","hemma_borta":"Borta","motstand":"Öjersjö IF","anlaggning":"Öjersjö IP 1 Konstgräs","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"19:00","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"17","hemma_borta":"Borta","motstand":"Älvängens IK F11","anlaggning":"Älvevi 2 Konstgräs","krock":"JA","ansvarig_ledare":"Magnus","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-02","veckodag":"Fredag","tid":"18:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"17","hemma_borta":"Borta","motstand":"IK Zenith F16 2","anlaggning":"Hovgårdsvallen 2 Konstgräs (Bjurforsplanen)","krock":"JA","ansvarig_ledare":"Jenni","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-03","veckodag":"Lördag","tid":"15:30","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Borta","motstand":"IK Kongahälla","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-04","veckodag":"Söndag","tid":"18:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"21","hemma_borta":"Borta","motstand":"Mossens BK (B)","anlaggning":"Valhalla 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-04","veckodag":"Söndag","tid":"18:30","lag":"2012","tavling":"Stor9m9","omgang":"","hemma_borta":"Hemma","motstand":"Öjersjö IF","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-06","veckodag":"Tisdag","tid":"19:30","lag":"VIT","tavling":"Flickor 2010-2011 Lätt Grupp C","omgang":"18","hemma_borta":"Hemma","motstand":"Lekstorps IF F11/12 vit","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Martin","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-07","veckodag":"Onsdag","tid":"20:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"19","hemma_borta":"Borta","motstand":"Näsets SK (B)","anlaggning":"Näset Yuncture Arena","krock":"JA","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-08","veckodag":"Torsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"18","hemma_borta":"Hemma","motstand":"Surte/Ahlafors","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Henrik","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-08","veckodag":"Torsdag","tid":"19:30","lag":"DAM","tavling":"Division 4A Dam","omgang":"20","hemma_borta":"Hemma","motstand":"Mölnlycke IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-10","veckodag":"Lördag","tid":"13:45","lag":"2012","tavling":"Stor9m9","omgang":"","hemma_borta":"Hemma","motstand":"Örgryte","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-11","veckodag":"Söndag","tid":"14:15","lag":"DAM","tavling":"Division 4A Dam","omgang":"22","hemma_borta":"Hemma","motstand":"Öjersjö IF","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-11","veckodag":"Söndag","tid":"14:00","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Hemma","motstand":"Galacticos","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-17","veckodag":"Lördag","tid":"12:30","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Borta","motstand":"Finlandia","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-18","veckodag":"Söndag","tid":"14:30","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Borta","motstand":"IF Warta","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-21","veckodag":"Onsdag","tid":"19:30","lag":"SVART","tavling":"Flickor 2010-2011 Lätt Grupp B","omgang":"16","hemma_borta":"Hemma","motstand":"Nödinge SK Fotboll","anlaggning":"Lindevi IP 1 Konstgräs","krock":"","ansvarig_ledare":"Anna","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-21","veckodag":"Onsdag","tid":"19:30","lag":"2012","tavling":"Stor9m9","omgang":"","hemma_borta":"Borta","motstand":"Kållered SK","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""},{"datum":"2026-10-24","veckodag":"Lördag","tid":"13:30","lag":"2013","tavling":"liten 9m9","omgang":"","hemma_borta":"Hemma","motstand":"Södra Skärgårdens","anlaggning":"","krock":"","ansvarig_ledare":"","flytt_ansvarig":"","kommentar":""}]/*MATCHES_JSON_END*/;
 
 // ─────────────────────────────────────────────
 // CONSTANTS
@@ -941,7 +1348,8 @@ function render() {
     // Trainer options for select
     const trainerOpts = TRAINERS.map(t => `<option value="${t}" ${t===(m.ansvarig_ledare||'')?'selected':''}>${t||'— ej angiven —'}</option>`).join('');
 
-    html += `<div class="match-card${past?' past':''}${conflict?' conflict':''}${exp?' expanded':''}${isEdited?' edited':''}" onclick="toggleCard(${idx})" data-editid="${idx}">
+    const youth = m.lag==='2012' || m.lag==='2013';
+    html += `<div class="match-card${youth?' youth-muted':''}${past?' past':''}${conflict?' conflict':''}${exp?' expanded':''}${isEdited?' edited':''}" onclick="toggleCard(${idx})" data-editid="${idx}">
       <div class="card-main">
         <div class="team-stripe stripe-${m.lag}"></div>
         <div class="card-body">
